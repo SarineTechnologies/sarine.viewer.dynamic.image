@@ -1,6 +1,6 @@
 
 /*!
-sarine.viewer.dynamic.image - v0.1.0 -  Wednesday, May 13th, 2015, 3:31:45 PM 
+sarine.viewer.dynamic.image - v0.1.0 -  Thursday, May 14th, 2015, 4:14:37 PM 
  The source code, name, and look and feel of the software are Copyright © 2015 Sarine Technologies Ltd. All Rights Reserved. You may not duplicate, copy, reuse, sell or otherwise exploit any portion of the code, content or visual design elements without express written permission from Sarine Technologies Ltd. The terms and conditions of the sarine.com website (http://sarine.com/terms-and-conditions/) apply to the access and use of this software.
  */
 
@@ -37,6 +37,7 @@ sarine.viewer.dynamic.image - v0.1.0 -  Wednesday, May 13th, 2015, 3:31:45 PM
       this.downloadImagesArr = {};
       this.first_init_defer = $.Deferred();
       this.full_init_defer = $.Deferred();
+      this.direction = "left";
       for (index = _i = 0, _ref = this.amountOfImages; 0 <= _ref ? _i <= _ref : _i >= _ref; index = 0 <= _ref ? ++_i : --_i) {
         this.imagesArr[index] = void 0;
       }
@@ -131,7 +132,25 @@ sarine.viewer.dynamic.image - v0.1.0 -  Wednesday, May 13th, 2015, 3:31:45 PM
       if (indexer.length > 1) {
         this.ctx.clearRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
         this.ctx.drawImage(downloadImagesArr[indexer[counter]], 0, 0);
-        return counter = (counter + 1) % indexer.length;
+        if (this.backOnEnd) {
+          return this.chekDirection();
+        } else {
+          return counter = (counter + 1) % this.amountOfImages;
+        }
+      }
+    };
+
+    DynamicImage.prototype.chekDirection = function() {
+      if (this.direction === "right") {
+        counter--;
+        if (counter % this.amountOfImages === 0) {
+          return this.direction = "left";
+        }
+      } else {
+        counter++;
+        if (counter % this.amountOfImages === 0) {
+          return this.direction = "right";
+        }
       }
     };
 

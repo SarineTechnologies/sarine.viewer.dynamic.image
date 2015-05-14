@@ -1,5 +1,5 @@
 ###!
-sarine.viewer.dynamic.image - v0.1.0 -  Wednesday, May 13th, 2015, 3:31:45 PM 
+sarine.viewer.dynamic.image - v0.1.0 -  Thursday, May 14th, 2015, 4:14:37 PM 
  The source code, name, and look and feel of the software are Copyright © 2015 Sarine Technologies Ltd. All Rights Reserved. You may not duplicate, copy, reuse, sell or otherwise exploit any portion of the code, content or visual design elements without express written permission from Sarine Technologies Ltd. The terms and conditions of the sarine.com website (http://sarine.com/terms-and-conditions/) apply to the access and use of this software.
 ###
 class DynamicImage extends Viewer.Dynamic  
@@ -22,6 +22,7 @@ class DynamicImage extends Viewer.Dynamic
 		@downloadImagesArr = {}
 		@first_init_defer = $.Deferred()
 		@full_init_defer = $.Deferred()
+		@direction = "left"		
 		for index in [0..@amountOfImages]
 			@imagesArr[index] = undefined								
 
@@ -70,12 +71,25 @@ class DynamicImage extends Viewer.Dynamic
 		@loadParts().then(defer.resolve)  				
 		defer		
 
-	nextImage : ()->
+	nextImage : ()->		
 		indexer = Object.getOwnPropertyNames(downloadImagesArr).map((v)-> parseInt(v)) 
 		if indexer.length > 1
 			@ctx.clearRect 0, 0, @ctx.canvas.width, @ctx.canvas.height
 			@ctx.drawImage downloadImagesArr[indexer[counter]] , 0 , 0	
-			# TODO use @backOnEnd to change direction
-			counter = (counter + 1) % indexer.length		
+			if @backOnEnd
+				@chekDirection()
+			else
+				counter = (counter + 1) % @amountOfImages	
+				
+	
+	chekDirection : ()->
+		if @direction == "right"
+				counter--
+				if counter % @amountOfImages == 0 
+					@direction = "left"
+		else
+			counter++
+			if counter % @amountOfImages == 0 
+				@direction = "right" 
 
 @DynamicImage = DynamicImage
