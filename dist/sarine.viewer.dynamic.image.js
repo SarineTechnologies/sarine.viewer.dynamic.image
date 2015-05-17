@@ -1,6 +1,6 @@
 
 /*!
-sarine.viewer.dynamic.image - v0.1.0 -  Thursday, May 14th, 2015, 4:14:37 PM 
+sarine.viewer.dynamic.image - v0.1.0 -  Sunday, May 17th, 2015, 10:09:24 AM 
  The source code, name, and look and feel of the software are Copyright © 2015 Sarine Technologies Ltd. All Rights Reserved. You may not duplicate, copy, reuse, sell or otherwise exploit any portion of the code, content or visual design elements without express written permission from Sarine Technologies Ltd. The terms and conditions of the sarine.com website (http://sarine.com/terms-and-conditions/) apply to the access and use of this software.
  */
 
@@ -27,12 +27,11 @@ sarine.viewer.dynamic.image - v0.1.0 -  Thursday, May 14th, 2015, 4:14:37 PM
     function DynamicImage(options) {
       var index, _i, _ref;
       DynamicImage.__super__.constructor.call(this, options);
-      this.sliceDownload = options.sliceDownload, this.backOnEnd = options.backOnEnd, this.imageType = options.imageType, this.oneDigits = options.oneDigits, this.speed = options.speed, this.amountOfImages = options.amountOfImages;
+      this.sliceDownload = options.sliceDownload, this.backOnEnd = options.backOnEnd, this.imageType = options.imageType, this.oneDigits = options.oneDigits, this.speed = options.speed, this.amountOfImages = options.amountOfImages, this.imageNamePrefix = options.imageNamePrefix;
       this.sliceDownload = this.sliceDownload || 3;
-      this.oneDigits = this.oneDigits || true;
-      this.backOnEnd = this.backOnEnd || false;
       this.speed = this.speed || 30;
       this.amountOfImages = this.amountOfImages || 200;
+      this.imageNamePrefix = this.imageNamePrefix || '';
       this.imagesArr = {};
       this.downloadImagesArr = {};
       this.first_init_defer = $.Deferred();
@@ -54,7 +53,7 @@ sarine.viewer.dynamic.image - v0.1.0 -  Thursday, May 14th, 2015, 4:14:37 PM
       defer = this.first_init_defer;
       defer.notify(this.id + " : start load first image");
       _t = this;
-      this.loadImage(this.src + 'img' + (this.oneDigits ? "0" : "00") + (this.imageType ? this.imageType : ".png")).then(function(img) {
+      this.loadImage(this.src + this.imageNamePrefix + (this.oneDigits ? "0" : "00") + (this.imageType ? this.imageType : ".png")).then(function(img) {
         _t.canvas.attr({
           'width': img.width,
           'height': img.height
@@ -89,7 +88,7 @@ sarine.viewer.dynamic.image - v0.1.0 -  Thursday, May 14th, 2015, 4:14:37 PM
         for (_i = 0, _len = _ref.length; _i < _len; _i++) {
           index = _ref[_i];
           _results.push((function(index) {
-            return _t.loadImage(_t.src + 'img' + (index < 10 && !_t.oneDigits ? "0" + index : index) + (_t.imageType ? _t.imageType : ".png")).then(function(img) {
+            return _t.loadImage(_t.src + _t.imageNamePrefix + (index < 10 && !_t.oneDigits ? "0" + index : index) + (_t.imageType ? _t.imageType : ".png")).then(function(img) {
               return downloadImages.push(img);
             });
           })(index));

@@ -1,5 +1,5 @@
 ###!
-sarine.viewer.dynamic.image - v0.1.0 -  Thursday, May 14th, 2015, 4:14:36 PM 
+sarine.viewer.dynamic.image - v0.1.0 -  Sunday, May 17th, 2015, 10:09:24 AM 
  The source code, name, and look and feel of the software are Copyright © 2015 Sarine Technologies Ltd. All Rights Reserved. You may not duplicate, copy, reuse, sell or otherwise exploit any portion of the code, content or visual design elements without express written permission from Sarine Technologies Ltd. The terms and conditions of the sarine.com website (http://sarine.com/terms-and-conditions/) apply to the access and use of this software.
 ###
 
@@ -69,23 +69,22 @@ class DynamicImage extends Viewer.Dynamic
 	
 	constructor: (options) ->
 		super(options)	
-		{@sliceDownload, @backOnEnd, @imageType, @oneDigits, @speed, @amountOfImages} = options		
-		@sliceDownload = @sliceDownload || 3
-		@oneDigits = @oneDigits || true
-		@backOnEnd = @backOnEnd || false
+		{@sliceDownload, @backOnEnd, @imageType, @oneDigits, @speed, @amountOfImages, @imageNamePrefix} = options		
+		@sliceDownload = @sliceDownload || 3		
 		@speed = @speed || 30
 		@amountOfImages = @amountOfImages || 200
+		@imageNamePrefix = @imageNamePrefix || ''
 		@imagesArr = {}
 		@downloadImagesArr = {}
 		@first_init_defer = $.Deferred()
 		@full_init_defer = $.Deferred()
 		@direction = "left"		
-		for index in [0..@amountOfImages]
+		for index in [0..@amountOfImages] 
 			@imagesArr[index] = undefined								
 
 	convertElement : () ->
 		@canvas = $("<canvas>")		
-		@ctx = @canvas[0].getContext('2d')
+		@ctx = @canvas[0].getContext('2d')  
 		@element.append(@canvas)		
 
 	first_init : ()->
@@ -93,8 +92,8 @@ class DynamicImage extends Viewer.Dynamic
 		defer.notify(@id + " : start load first image")
 		_t = @
 		
-		@loadImage(@src + 'img' + (if @oneDigits then "0" else "00") + (if @imageType then @imageType else ".png")).then((img)->
-			_t.canvas.attr {'width':img.width, 'height': img.height}
+		@loadImage(@src + @imageNamePrefix + (if @oneDigits then "0" else "00") + (if @imageType then @imageType else ".png")).then((img)->
+			_t.canvas.attr {'width':img.width, 'height': img.height} 
 			_t.ctx.drawImage img , 0 , 0 			
 			defer.resolve(_t) 
 		)
@@ -107,7 +106,7 @@ class DynamicImage extends Viewer.Dynamic
 		_t = @
 		$.when.apply($,for index in (index for index in Object.getOwnPropertyNames(@imagesArr) when (index + gap) % @sliceDownload == 0)
 			do (index)->
-				_t.loadImage(_t.src + 'img' + (if index < 10 and not _t.oneDigits  then "0" + index else index)  + (if _t.imageType then _t.imageType else ".png")).then((img)-> downloadImages.push img )
+				_t.loadImage(_t.src + _t.imageNamePrefix + (if index < 10 and not _t.oneDigits  then "0" + index else index)  + (if _t.imageType then _t.imageType else ".png")).then((img)-> downloadImages.push img )
 			).then(()->
 					for img in downloadImages
 						do (img)->
