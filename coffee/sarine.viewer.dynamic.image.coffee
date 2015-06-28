@@ -1,5 +1,5 @@
 ###!
-sarine.viewer.dynamic.image - v0.2.0 -  Wednesday, June 3rd, 2015, 10:15:12 AM 
+sarine.viewer.dynamic.image - v0.2.0 -  Sunday, June 28th, 2015, 4:57:09 PM 
  The source code, name, and look and feel of the software are Copyright © 2015 Sarine Technologies Ltd. All Rights Reserved. You may not duplicate, copy, reuse, sell or otherwise exploit any portion of the code, content or visual design elements without express written permission from Sarine Technologies Ltd. The terms and conditions of the sarine.com website (http://sarine.com/terms-and-conditions/) apply to the access and use of this software.
 ###
 class DynamicImage extends Viewer.Dynamic  
@@ -13,7 +13,7 @@ class DynamicImage extends Viewer.Dynamic
 	constructor: (options) ->
 		super(options)	
 		{@sliceDownload, @backOnEnd, @imageType, @oneDigits, @speed, @amountOfImages, @imageNamePrefix} = options		
-		@sliceDownload = @sliceDownload || 3		
+		@sliceDownload = @sliceDownload || 1		
 		@speed = @speed || 30
 		@amountOfImages = @amountOfImages || 200
 		@imageNamePrefix = @imageNamePrefix || ''
@@ -43,7 +43,7 @@ class DynamicImage extends Viewer.Dynamic
 		defer
 
 	loadParts : (gap,defer)->
-		gap = gap || 0
+		gap = gap || 1
 		defer = defer || $.Deferred()
 		downloadImages = []
 		_t = @

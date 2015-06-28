@@ -1,6 +1,6 @@
 
 /*!
-sarine.viewer.dynamic.image - v0.2.0 -  Wednesday, June 3rd, 2015, 10:15:12 AM 
+sarine.viewer.dynamic.image - v0.2.0 -  Sunday, June 28th, 2015, 4:57:08 PM 
  The source code, name, and look and feel of the software are Copyright © 2015 Sarine Technologies Ltd. All Rights Reserved. You may not duplicate, copy, reuse, sell or otherwise exploit any portion of the code, content or visual design elements without express written permission from Sarine Technologies Ltd. The terms and conditions of the sarine.com website (http://sarine.com/terms-and-conditions/) apply to the access and use of this software.
  */
 
@@ -126,7 +126,7 @@ sarine.viewer.dynamic.image - v0.2.0 -  Wednesday, June 3rd, 2015, 10:15:12 AM
       var index, _i, _ref;
       DynamicImage.__super__.constructor.call(this, options);
       this.sliceDownload = options.sliceDownload, this.backOnEnd = options.backOnEnd, this.imageType = options.imageType, this.oneDigits = options.oneDigits, this.speed = options.speed, this.amountOfImages = options.amountOfImages, this.imageNamePrefix = options.imageNamePrefix;
-      this.sliceDownload = this.sliceDownload || 3;
+      this.sliceDownload = this.sliceDownload || 1;
       this.speed = this.speed || 30;
       this.amountOfImages = this.amountOfImages || 200;
       this.imageNamePrefix = this.imageNamePrefix || '';
@@ -164,7 +164,7 @@ sarine.viewer.dynamic.image - v0.2.0 -  Wednesday, June 3rd, 2015, 10:15:12 AM
 
     DynamicImage.prototype.loadParts = function(gap, defer) {
       var downloadImages, index, _t;
-      gap = gap || 0;
+      gap = gap || 1;
       defer = defer || $.Deferred();
       downloadImages = [];
       _t = this;
