@@ -38,7 +38,7 @@
   },
   "version": "0.6.1",
    "scripts": {
-    "build": "npm install && grunt build",
+    "build": "grunt build",
     "dev": "grunt dev"
   },
   "engines": {
